@@ -22,18 +22,6 @@ try {
 const db = mongoClient.db("myWalletDb");
 const objectId = ObjectId;
 
-const balanceSchema = joi.object({
-    description: joi.string().required().min(2).max(30),
-    value: joi.number().required(),
-    type: joi.string().valid('income','outcome').required(),
-    date: joi.string().required()
-  });
-
-  const userSchema = joi.object({
-    name: joi.string().required().min(3),
-    email: joi.string().email().required(),
-    password: joi.string().required().min(3),
-  });
 
 app.use(autrouters);
 app.use(balancerouters);
