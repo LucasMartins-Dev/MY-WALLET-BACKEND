@@ -2,9 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
-import joi from "joi";
-import authRoutes from "./routes/authRoutes.js";
-import balanceRoutes from "./routes/balanceRoutes.js";
+import autrouters from "./routes/autrouters.js";
+import balancerouters from "./routes/balanceRoutes.js";
 
 dotenv.config();
 const app = express();

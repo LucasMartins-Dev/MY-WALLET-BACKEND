@@ -1,15 +1,16 @@
 import { Router } from "express";
-import validateSchema from "../middlewares/validateSchema.js";
+import { balanceget, balancepost } from "../controllers/balancecontrollers.js";
 import bSchema from "../schemas/bSchema.js";
-import validateToken from "../middlewares/validateToken.js";
-import { getBalance, postBalance } from "../controllers/balanceControllers.js";
+import schemavalidate from "../middlewares/schemavalidate.js";
+import tokenvalidate from "../middlewares/tokenvalidate.js";
+
 const route = Router();
 route.post(
   "/balance",
-  validateToken,
-  validateSchema(bSchema),
-  postBalance
+  tokenvalidate,
+  schemavalidate(bSchema),
+  balancepost
 );
-route.get("/balance", validateToken, getBalance);
+route.get("/balance", tokenvalidate, balanceget);
 
 export default route;
