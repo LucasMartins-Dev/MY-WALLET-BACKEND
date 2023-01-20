@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { signUp, signIn } from "../controllers/authControllers.js";
-import schemavalidate from "../middlewares/vschemavalidate.js";
-import uSchema from "../schemas/uSchema.js";
+import { signUp, signIn } from "../controllers/autcontrollers.js";
+import schemavalidate from "../middlewares/schemavalidate.js";
+import uSchema from "../schemas/uschema.js";
 
 const route = Router();
 route.post("/sign-up", schemavalidate(uSchema), signUp);

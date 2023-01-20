@@ -1,4 +1,4 @@
-import { db } from "../dbConnection/mongo.js";
+import { db } from "../src/app.js";
 import bcrypt from "bcrypt";
 import { v4 as tokenGenerator } from "uuid";
 
@@ -12,7 +12,6 @@ export async function signUp(req, res) {
         .toArray();
       if (existsUser.length !== 0) {
         console.log("Usuário já existe");
-        console.log(existsUser);
         res.sendStatus(409);
         return;
       }
@@ -36,12 +35,12 @@ export async function signIn(req, res) {
   try {
     const existsUser = await db.collection("users").findOne({ email });
     if (!existsUser) {
-      return res.sendStatus(401);
+      return res.status(401).send('Usuário ou senha incorretos');
     }
     const pswd = bcrypt.compareSync(password, existsUser.password);
 
     if (!pswd) {
-      return res.sendStatus(401);
+      return res.status(401).send('Usuário ou senha incorretos');
     }
     const token = tokenGenerator();
     await db

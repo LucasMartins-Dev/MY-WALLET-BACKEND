@@ -1,4 +1,4 @@
-import { db, objectId } from "../dbConnection/mongo.js";
+import { db, objectId } from "../src/app.js";
 
 export async function balancepost(req, res) {
   const { value, description, type, date } = req.body;

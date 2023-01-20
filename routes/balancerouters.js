@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { balanceget, balancepost } from "../controllers/balancecontrollers.js";
-import bSchema from "../schemas/bSchema.js";
+import bSchema from "../schemas/bschema.js";
 import schemavalidate from "../middlewares/schemavalidate.js";
 import tokenvalidate from "../middlewares/tokenvalidate.js";
 
