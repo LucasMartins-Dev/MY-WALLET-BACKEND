@@ -21,6 +21,7 @@ export async function signUp(req, res) {
         name: req.body.name,
         email: req.body.email,
         password: pswd,
+        confirmpassword:pswd,
       });
       res.sendStatus(201);
     } catch (erro) {
