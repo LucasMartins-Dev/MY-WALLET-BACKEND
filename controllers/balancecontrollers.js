@@ -1,49 +1,35 @@
 import { db, objectId } from "../src/app.js";
+import dayjs from "dayjs";
 
-export async function balancepost(req, res) {
-  const { value, description, type, date } = req.body;
-  const token = res.locals.token;
-
-  const session = await db.collection("sessions").findOne({ token });
-
-  if (!session) {
-    return res.sendStatus(401);
+export async function getitens(req, res) {
+  const findToken = res.locals.user
+ 
+  try{
+      const Walletregist = await db.collection("wallet").find({userId: findToken.user}).toArray()
+      console.log(Walletregist)
+      res.status(200).send(Walletregist.reverse())
+  }catch(error){
+      res.status(500).send(error.message)
   }
-  const user = await db
-    .collection("users")
-    .findOne({ _id: objectId(session.userId) });
-
-  if (!user) {
-    return res.sendStatus(404);
   }
 
-  try {
-    const item = { userId: session.userId, value, description, type, date, name:user.name };
-    await db.collection("balance").insertOne(item);
-    res.send(item).status(201);
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
+
+export async function create (req, res){
+
+  const findToken = res.locals.user
+  const wallet = req.body
+  try{
+    await db.collection('wallet').insertOne(
+      {value:wallet.value, 
+        description :wallet.description,
+        type:wallet.type,
+        date: dayjs().format('DD/MM'),
+        userId: findToken.user})
+  
+        res.send('ok')
+  }catch(error){
+    res.status(500).send(error.message)
   }
+  
 }
-export async function balanceget(req, res) {
-  const token = res.locals.token;
-  const session = await db.collection("sessions").findOne({ token });
-  if (!session) {
-    return res.sendStatus(401);
-  }
-  const user = await db
-    .collection("users")
-    .findOne({ _id: objectId(session.userId) });
 
-  if (!user) {
-    return res.sendStatus(404);
-  }
-
-  const balanceUser = await db
-    .collection("balance")
-    .find({ userId: objectId(session.userId) })
-    .toArray();
-
-  return res.status(200).send(balanceUser);
-}
